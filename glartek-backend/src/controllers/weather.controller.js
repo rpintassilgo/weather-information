@@ -1,26 +1,50 @@
 //const jwt = require('jsonwebtoken');
 const WEATHER_API_KEY = require('../config/openweather.json').key; // secalhar faz mais sentido meter uma key num .env
 const WEATHER_API_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
+const GEO_API_BASE_URL = 'http://api.openweathermap.org/geo/1.0/direct?';
 const axios = require('axios').default;
 const Compass = require("cardinal-direction");
 const redisClient = require('../config/redis');
 
 module.exports = class WeatherController{
 
-    static async getWeatherByCity(req,res){
+    static async getCoordinatesByCityName(req,res){
+        const city = req.params.city;
+        let data = null;
+
+        // check if the key is set
+        const exists = await redisClient.get(`geo/${city}`) == null ? false : true
+
         try {
+            if(!exists){
+                const response = await axios.get(`${GEO_API_BASE_URL}?q=${city}&appid=${WEATHER_API_KEY}`, 
+                { headers: {'Content-type': 'application/json'}});
+                
+                // verificar depois se ha problema, quando a string for demasiado grande (acho q nao)
+                await redisClient.set(`geo/${city}`,JSON.stringify(response.data));
 
-            // depois meter numa tabela no front e usar a geocode api e depois fazer call à api do current
-            // weather com as coordenadas
-            // pois pode existir cidades com nome igual em vários países
+                data = response.data;
+            } else {
+                data = JSON.parse(await redisClient.get(`geo/${city}`));
+            }
 
+            return res.send(data)
+            
+        } catch (error) {
+            return res.status(400).send({ error: "Erro coordinates: " + error.message/*'Unavaiable'*/});
+        }
+    }
 
-            // capitalize the first letter of the string
-            const city = req.params.city.charAt(0).toUpperCase() + req.params.city.slice(1);
-            const data = null
+    static async getWeatherByCoordinates(req,res){
+        const coordinates = `${req.query.lat}|${req.query.lon}`;
+        let data = null
 
-            if(redisClient.get(city) == null){
-                const response = await axios.get(`${WEATHER_API_BASE_URL}?q=${city},${country}&appid=${WEATHER_API_KEY}`, 
+        // check if the key is set
+        const exists = await redisClient.get(coordinates) == null ? false : true
+
+        try {
+            if(!exists){
+                const response = await axios.get(`${WEATHER_API_BASE_URL}?lat=${req.query.lat}&lon=${req.query.lon}&appid=${WEATHER_API_KEY}`, 
                 { headers: {'Content-type': 'application/json'}});
 
                 const weather = {
@@ -36,20 +60,21 @@ module.exports = class WeatherController{
                     },
                     time: new Date(response.data.dt * 1000)
                 }
+                
+                await redisClient.set(coordinates,JSON.stringify(weather));
+                await redisClient.expire(coordinates,1800);
 
-                await redisClient.set(city,weather);
                 data = weather;
             } else {
-                data = redisClient.get(city);
+                data = JSON.parse(await redisClient.get(coordinates));
             }
 
             return res.send(data)
           
         } catch (error) {
-            return res.status(400).send({ error: error.message/*'Weather fecthing failed'*/});
+            return res.status(400).send({ error: "Erro weather: " + error.message/*'Weather fecthing failed'*/});
         }
     };
-
 
 };
 
