@@ -1,7 +1,3 @@
-//const jwt = require('jsonwebtoken');
-const WEATHER_API_KEY = require('../config/openweather.json').key; // secalhar faz mais sentido meter uma key num .env
-const WEATHER_API_BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
-const GEO_API_BASE_URL = 'http://api.openweathermap.org/geo/1.0/direct?';
 const axios = require('axios').default;
 const Compass = require("cardinal-direction");
 const redisClient = require('../config/redis');
@@ -15,9 +11,11 @@ module.exports = class WeatherController{
         // check if the key is set
         const exists = await redisClient.get(`geo/${city}`) == null ? false : true
 
+        console.log("teste: " + process.env.GEO_API_URL);
+
         try {
             if(!exists){
-                const response = await axios.get(`${GEO_API_BASE_URL}?q=${city}&appid=${WEATHER_API_KEY}`, 
+                const response = await axios.get(`${process.env.GEO_API_URL}?q=${city}&appid=${process.env.OPEN_WEATHER_API_KEY}`, 
                 { headers: {'Content-type': 'application/json'}});
                 
                 // verificar depois se ha problema, quando a string for demasiado grande (acho q nao)
@@ -44,7 +42,7 @@ module.exports = class WeatherController{
 
         try {
             if(!exists){
-                const response = await axios.get(`${WEATHER_API_BASE_URL}?lat=${req.query.lat}&lon=${req.query.lon}&appid=${WEATHER_API_KEY}`, 
+                const response = await axios.get(`${process.env.WEATHER_API_URL}?lat=${req.query.lat}&lon=${req.query.lon}&appid=${process.env.OPEN_WEATHER_API_KEY}`, 
                 { headers: {'Content-type': 'application/json'}});
 
                 const weather = {

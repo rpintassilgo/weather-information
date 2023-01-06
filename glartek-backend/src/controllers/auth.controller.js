@@ -1,12 +1,11 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const authConfig = require('../config/auth.json');
 
 module.exports = class AuthController{
 
     static generateToken(params = {}){
-        return jwt.sign(params, authConfig.secret, {
+        return jwt.sign(params, process.env.CLIENT_SECRET, {
             expiresIn: 86400, // 1 day
         })
     }

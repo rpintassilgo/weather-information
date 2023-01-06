@@ -13,6 +13,7 @@ app.use('/auth', authRoute)
 app.use('/weather', weatherRoute)
 
 //require('./controllers/AuthController')(app);
+require('dotenv').config()
 
 
 app.listen(port, () => {
