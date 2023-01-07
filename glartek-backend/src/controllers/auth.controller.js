@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = class AuthController{
 
-    static generateToken(params = {}){
+    static generateToken(params = {}){ // trocar para sha512
         return jwt.sign(params, process.env.CLIENT_SECRET, {
             expiresIn: 86400, // 1 day
         })

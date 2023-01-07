@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
@@ -9,6 +10,7 @@ const weatherRoute = require('./routes/weather.routes');
 //app.use(express.json())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors())
 app.use('/auth', authRoute)
 app.use('/weather', weatherRoute)
 

@@ -13,7 +13,7 @@ import "bootstrap"
 
 const app = createApp(App)
 
-const serverBaseUrl = 'http://localhost'
+const serverBaseUrl = import.meta.env.VITE_APP_BASE_URL
 app.provide('axios', axios.create({
     baseURL: serverBaseUrl + '/api',
     headers: {

@@ -101,36 +101,27 @@ const clickMenuOption = () => {
     <div class="row">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="position-sticky pt-3">
-          <ul class="nav flex-column" v-if="userStore.user">
+          <ul class="nav flex-column" v-if="!userStore.user">
             <li class="nav-item">
               <router-link
                 class="nav-link"
-                :class="{ active: $route.name === 'Homepage' }"
-                :to="{ name: 'Homepage' }"
+                :class="{ active: $route.name === 'Forecast' }"
+                :to="{ name: 'Forecast' }"
                 @click="clickMenuOption"
               >
-                <i class="bi bi-house"></i>
-                Homepage
+                <i class="bi bi-cloud-rain"></i>
+                Forecast
               </router-link>
             </li>
             <li class="nav-item">
               <router-link
                 class="nav-link"
-                :class="{ active: $route.name === 'CurrentTasks' }"
-                :to="{ name: 'CurrentTasks' }"
+                :class="{ active: $route.name === 'Cities' }"
+                :to="{ name: 'Cities' }"
                 @click="clickMenuOption"
               >
-                <i class="bi bi-list-stars"></i>
-                Current Tasks
-              </router-link>
-            </li>
-            <li class="nav-item">
-              <router-link
-                class="nav-link"
-                @click="clickMenuOption"
-              >
-                <i class="bi bi-files"></i>
-                Weather
+                <i class="bi bi-geo-alt"></i>
+                Search city
               </router-link>
             </li>
           </ul>
@@ -173,17 +164,6 @@ const clickMenuOption = () => {
                   <span class="avatar-text">User Name</span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
-                  <li>
-                    <router-link
-                      class="dropdown-item"
-                      :class="{ active: $route.name == 'User' && $route.params.id == userStore.userId }"
-                      :to="{ name: 'User', params: { id: userStore.userId } }" @click="clickMenuOption">
-                      <i class="bi bi-person-square"></i>Profile
-                    </router-link>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider" />
-                  </li>
                   <li>
                     <a class="dropdown-item" @click.prevent="logout">
                       <i class="bi bi-arrow-right"></i>Logout
