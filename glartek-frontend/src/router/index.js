@@ -5,6 +5,7 @@ import Homepage from "../components/Homepage.vue"
 import Login from "../components/auth/Login.vue"
 import Register from "../components/auth/Register.vue"
 import Forecast from "../components/forecast/Forecast.vue"
+import ForecastCity from "../components/forecast/ForecastCity.vue"
 import Cities from "../components/cities/Cities.vue"
 
 const router = createRouter({
@@ -37,6 +38,17 @@ const router = createRouter({
       path: '/forecast',
       name: 'Forecast',
       component: Forecast
+    }, 
+    {
+      path: '/weather',
+      name: 'ForecastCity',
+      component: ForecastCity,
+      props: route => ({ lat: route.query.lat,
+                         lon: route.query.lon,
+                         city: route.query.city,
+                         country: route.query.country,
+                         state: route.query.state
+                       })   
     }, 
     {
       path: '/cities',

@@ -51,8 +51,11 @@ module.exports = class WeatherController{
                 console.log(response.data.dt)
                 const weather = {
                     city: response.data.city,
-                    weather: response.data.weather[0].main,
-                    weatherDescription: response.data.weather[0].description,
+                    weather: {
+                        main: response.data.weather[0].main,
+                        description: response.data.weather[0].description,
+                        icon: response.data.weather[0].icon,
+                    },
                     temperature: (response.data.main.temp - 273.15).toFixed(1),
                     humidity: response.data.main.humidity,
                     visibility: response.data.visibility,
@@ -113,8 +116,10 @@ module.exports = class WeatherController{
                 response.data.list.forEach(el => {
                     forecast.push({
                         city: el.city,
-                        weather: el.weather[0].main,
-                        weatherDescription: el.weather[0].description,
+                        weather: {
+                            main: el.weather[0].main,
+                            description: el.weather[0].description,
+                        },
                         temperature: (el.main.temp - 273.15).toFixed(1),
                         humidity: el.main.humidity,
                         visibility: el.visibility,

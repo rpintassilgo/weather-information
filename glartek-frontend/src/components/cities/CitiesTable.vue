@@ -41,7 +41,7 @@ const forecastClick = (city) => {
               class="btn btn-xs btn-dark"
               @click="forecastClick(city)"
             >
-              Forecast
+              Weather
             </button>
         </td>
       </tr>

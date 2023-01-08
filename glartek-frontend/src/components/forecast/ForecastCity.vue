@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, onMounted, inject } from 'vue'
+  import { ref, onBeforeMount, onMounted, inject } from 'vue'
   import {useRouter} from 'vue-router'
   import ForecastTable from "./ForecastTable.vue"
   
@@ -7,49 +7,95 @@
 
   const axios = inject('axios')
   const serverBaseUrl = inject('serverBaseUrl')
+  const iconURL = inject('iconURL')
+
+  const props = defineProps({
+    lat: {
+      type: String,
+      required: true,
+    },
+    lon: {
+      type: String,
+      required: true,
+    },
+    city: {
+      type: String,
+      required: true,
+    },
+    country: {
+      type: String,
+      required: true,
+    },
+    state: {
+      type: String,
+      required: false,
+    },
+  })
 
   const forecast = ref([])
-  const filterByCity = ref('2267094')
+  const currentWeatherIcon = ref('')
+  const currentWeather = ref({
+    weather: {
+      main: '',
+      description: '',
+      icon: ''
+    },
+    temperature: '',
+    wind: {
+      speed: '',
+      direction: ''
+    }
+  })
 
-  const loadForecast = () => {
-    const getUrl = `${serverBaseUrl}/weather/forecast?cityid=${filterByCity.value}`
-    axios.get(getUrl)
+  const loadWeatherInformation = () => {
+    // load forecast
+    axios.get(`${serverBaseUrl}/weather/forecast?lat=${props.lat}&lon=${props.lon}`)
         .then((response) => {
-          console.log("RESPOSTA: " + response)
+          //console.log("RESPOSTA: " + JSON.stringify(response.data))
           forecast.value = response.data
         })
         .catch((error) => {
           console.log(error)
         })
+    
+    // load currentWeather
+    axios.get(`${serverBaseUrl}/weather?lat=${props.lat}&lon=${props.lon}`)
+    .then((response) => {
+      currentWeather.value = response.data
+      currentWeatherIcon.value = `${iconURL}/${currentWeather.value.weather.icon}@2x.png`
+      console.log("Current: " + JSON.stringify(currentWeather.value))
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+
   }
 
-  onMounted(() => loadForecast())
+
+  onMounted(() => loadWeatherInformation())
 </script>
 
 <template>
-  <h3 class="mt-5 mb-3">Forecast</h3>
+  <h3 class="mt-5 mb-3">Weather from {{props.city}} - {{props.country}} {{props.state === undefined ? '' : `(State: ${props.state})`}}</h3>
   <hr>
-    <div class="mx-2 mt-2 flex-grow-1">
-      <label
-        for="selectType"
-        class="form-label"
-      >Select city:</label>
-      <select
-        class="form-select"
-        id="selectCity"
-        v-model="filterByCity"
-        @change="loadForecast"
-      >
-        <option value="2267094">Leiria</option>
-        <option value="2267056">Lisboa</option>
-        <option value="2740636">Coimbra</option>
-        <option value="2735941">Porto</option>
-        <option value="2268337">Faro</option>
-      </select>
+  <div class="jumbotron jumbotron-fluid bg-dark text-white">
+    <div class="container">
+      <p class="lead">Current Weather</p>
+      <img class="weatherIcon" :src="currentWeatherIcon">
+      <h1 class="display-2">{{currentWeather.temperature}} ºC</h1>
+      <p class="lead">Weather: {{currentWeather.weather.main}} | Wind speed: {{currentWeather.wind.speed}}Km/h | Wind direction: {{currentWeather.wind.direction}}</p>
     </div>
-  <hr>
+  </div>
   <forecast-table
     :forecast="forecast"
   ></forecast-table>
 </template>
+
+<style scoped>
+.weatherIcon {
+  display: block;
+  float: left;
+  /* Scrollable contents if viewport is shorter than content. */
+}
+</style>
 

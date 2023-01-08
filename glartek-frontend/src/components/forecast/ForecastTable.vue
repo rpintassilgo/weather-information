@@ -22,15 +22,15 @@ const props = defineProps({
         <th class="align-middle">Temperature (ºC)</th>
         <th class="align-middle">Humidity (%)</th>
         <th class="align-middle">Visibility (meters)</th>
-        <th class="align-middle">Wind speed (Km/H)</th>
-        <th class="align-middle">Wind directiom</th>
+        <th class="align-middle">Wind speed (Km/h)</th>
+        <th class="align-middle">Wind direction</th>
         <th class="align-middle">Time</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="el in forecast" :key="forecast.indexOf(el)">
-        <td class="align-middle">{{ el.weather }}</td>
-        <td class="align-middle">{{ el.weatherDescription }}</td>
+        <td class="align-middle">{{ el.weather.main }}</td>
+        <td class="align-middle">{{ el.weather.description }}</td>
         <td class="align-middle">{{ el.temperature }}</td>
         <td class="align-middle">{{ el.humidity}}</td>
         <td class="align-middle">{{ el.visibility}}</td>

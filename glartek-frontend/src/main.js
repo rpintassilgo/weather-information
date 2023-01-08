@@ -14,6 +14,7 @@ import "bootstrap"
 const app = createApp(App)
 
 const serverBaseUrl = import.meta.env.VITE_APP_BASE_URL
+const iconURL = import.meta.env.VITE_ICON_URL
 app.provide('axios', axios.create({
     baseURL: serverBaseUrl + '/api',
     headers: {
@@ -21,6 +22,7 @@ app.provide('axios', axios.create({
     },
   }))
 app.provide('serverBaseUrl', serverBaseUrl)  
+app.provide('iconURL', iconURL)  
 
 app.use(Toaster, {
     // Global/Default options

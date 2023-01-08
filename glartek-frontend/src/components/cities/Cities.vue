@@ -16,7 +16,7 @@
     const getUrl = `${serverBaseUrl}/weather/${cityName.value}`
     axios.get(getUrl)
         .then((response) => {
-          console.log("RESPOSTA: " + JSON.stringify(response.data))
+          //console.log("RESPOSTA: " + JSON.stringify(response.data))
           cities.value = response.data
         })
         .catch((error) => {
@@ -25,8 +25,9 @@
   }
 
   const forecast = (city) => {
-  //  router.push({ name: 'ForecastCity', params: { city: city }})
-  } // receber isto no forecast city numa prop e depois fazer o get da forecast pelas coordenadas
+   // console.log("city: " + city)
+    router.push({ name: 'ForecastCity', query: { lat: city.lat, lon: city.lon, city: city.name, country: city.country, state: city.state}})
+  }
 
   onMounted(() => loadCities())
 </script>

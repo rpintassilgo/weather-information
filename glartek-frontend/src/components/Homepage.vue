@@ -4,7 +4,7 @@
   const axios = inject('axios')
   const serverBaseUrl = inject('serverBaseUrl')
 
-  const leiria = ref({temperature: null, weather: ''})
+  const leiria = ref({temperature: '', weather: ''})
 
   const loadLeiriaWeather = () => {
     axios.get(`${serverBaseUrl}/weather?lat=39.7437902&lon=-8.8071119`)
