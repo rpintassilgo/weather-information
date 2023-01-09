@@ -26,14 +26,6 @@ const router = createRouter({
       name: 'Register',
       component: Register
     },
-    /*
-    {
-      path: '/projects/:id',
-      name: 'Project',
-      component: Project,
-      props: route => ({ id: parseInt(route.params.id) })     
-    },
-    */
     {
       path: '/forecast',
       name: 'Forecast',
@@ -53,7 +45,8 @@ const router = createRouter({
     {
       path: '/cities',
       name: 'Cities',
-      component: Cities
+      component: Cities,
+      props: route => ({ city: route.query.city })
     }, 
   ]
 })
@@ -74,14 +67,6 @@ router.beforeEach(async (to, from, next) => {
     next({ name: 'Login' })
     return
   }
-  /*if (to.name == 'User') {
-    if ((userStore.user.type == 'A') || (userStore.user.id == to.params.id)) {
-      next()
-      return
-    }
-    next({ name: 'Homepage' })
-    return
-  }*/
   next()
 })
 

@@ -18,9 +18,9 @@
 
   const register = async () => {
 
-    console.log(JSON.stringify(credentials.value))
+    console.log("register: " + JSON.stringify(credentials.value))
 
-    if (await userStore.signUpCustomer(credentials.value)) {
+    if (await userStore.register(credentials.value)) {
       toast.success('Account created')
       emit('register')
       //router.back()
@@ -33,29 +33,11 @@
     else if (credentials.value.name == ''){
       credentials.value.name  = ''
       toast.error('Invalid name')
-  }
-  else if (credentials.value.email == ''){
-    credentials.value.email = ''
-      toast.error('Invalid email')
-  }
-  else if (credentials.value.phone == ''){
-      credentials.value.phone  = ''
-      toast.error('Invalid phone')
-  }
-  else if (credentials.value.nif == '' || credentials.value.nif.length < 9 || credentials.value.nif.length > 9 ){
-      credentials.value.nif  = ''
-      toast.error('Invalid nif')
-  }
-  else if (credentials.value.default_payment_type == ''){
-      credentials.value.default_payment_type  = ''
-      console.log("length"+credentials.value.nif.length)
-      toast.error('Invalid default_payment_type')
-
-  }
-  else{
-      credentials.value.default_payment_reference  = ''
-      toast.error('Invalid default_payment_reference')
-      }
+    }
+    else{
+        credentials.value.default_payment_reference  = ''
+        toast.error('Invalid default_payment_reference')
+        }
     }
 </script>
 
@@ -125,9 +107,9 @@
       <div class="mb-3 d-flex justify-content-center">
         <button
           type="button"
-          class="btn btn-primary px-5"
+          class="btn btn-dark px-5"
           @click="register"
-        >Registar</button>
+        >Register</button>
       </div>
 
 

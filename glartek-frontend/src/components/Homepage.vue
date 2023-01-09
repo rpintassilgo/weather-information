@@ -2,12 +2,11 @@
   import { ref, inject, onMounted } from 'vue'
 
   const axios = inject('axios')
-  const serverBaseUrl = inject('serverBaseUrl')
 
   const leiria = ref({temperature: '', weather: ''})
 
   const loadLeiriaWeather = () => {
-    axios.get(`${serverBaseUrl}/weather?lat=39.7437902&lon=-8.8071119`)
+    axios.get('weather?lat=39.7437902&lon=-8.8071119')
         .then((response) => {
           leiria.value = response.data
         })
@@ -29,7 +28,7 @@
       <div class="card-body">
         <h3 class="card-title" style="text-align: center;">Leiria</h3>
         <p class="card-text">Temperature: {{leiria.temperature}}ºC</p>
-        <p class="card-text">Weather: {{leiria.weather}}</p>
+        <p class="card-text">Weather: {{leiria.weather.main}}</p>
       </div>
     </div>
 </template>

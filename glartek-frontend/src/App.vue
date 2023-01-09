@@ -2,12 +2,10 @@
 import { useRouter, RouterLink, RouterView } from "vue-router"
 import { ref, inject } from "vue"
 import { useUserStore } from "./stores/user.js"
-import { useWeatherStore } from "./stores/weather.js"
 
 const router = useRouter()  
 const toast = inject("toast")
 const userStore = useUserStore()
-const weatherStore = useWeatherStore()
 
 const buttonSidebarExpand = ref(null)
 
@@ -110,14 +108,14 @@ const clickMenuOption = () => {
                 @click="clickMenuOption"
               >
                 <i class="bi bi-cloud-rain"></i>
-                Forecast
+                Weather
               </router-link>
             </li>
             <li class="nav-item">
               <router-link
                 class="nav-link"
                 :class="{ active: $route.name === 'Cities' }"
-                :to="{ name: 'Cities' }"
+                :to="{ name: 'Cities', query: { city: 'Lisbon' }}"
                 @click="clickMenuOption"
               >
                 <i class="bi bi-geo-alt"></i>
@@ -151,13 +149,13 @@ const clickMenuOption = () => {
                 <a
                   class="nav-link dropdown-toggle"
                   href="#"
-                  id="navbarDropdownMenuLink2"
+                  id="navbarDropdownMenuLink"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   <img
-                    :src="userStore.userPhotoUrl"
+                    src="./assets/avatar-none.png"
                     class="rounded-circle z-depth-0 avatar-img"
                     alt="avatar image"
                   />

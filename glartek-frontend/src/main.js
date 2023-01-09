@@ -16,7 +16,7 @@ const app = createApp(App)
 const serverBaseUrl = import.meta.env.VITE_APP_BASE_URL
 const iconURL = import.meta.env.VITE_ICON_URL
 app.provide('axios', axios.create({
-    baseURL: serverBaseUrl + '/api',
+    baseURL: serverBaseUrl,
     headers: {
       'Content-type': 'application/json',
     },

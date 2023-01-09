@@ -6,15 +6,18 @@
   const router = useRouter()
 
   const axios = inject('axios')
-  const serverBaseUrl = inject('serverBaseUrl')
 
+  const props = defineProps({
+    city: {
+      type: String,
+      required: false,
+    }
+  })
   const cities = ref([])
-  const cityName = ref('Lisbon')
+  const city = props.city == null ? ref('Lisbon') : ref(props.city)
 
   const loadCities = () => {
-    console.log(cityName.value)
-    const getUrl = `${serverBaseUrl}/weather/${cityName.value}`
-    axios.get(getUrl)
+    axios.get(`weather/${city.value}`)
         .then((response) => {
           //console.log("RESPOSTA: " + JSON.stringify(response.data))
           cities.value = response.data
@@ -22,6 +25,8 @@
         .catch((error) => {
           console.log(error)
         })
+    
+    router.push({ name: 'Cities', query: { city: city.value }})
   }
 
   const forecast = (city) => {
@@ -39,7 +44,7 @@
   <div class="row">
     <div class="search-wrapper panel-heading col-sm-12">
       <div class="input-group">
-        <input class="form-control" type="text" v-model="cityName" placeholder="Search city" />
+        <input class="form-control" type="text" v-model="city" placeholder="Search city" />
         <button type="button" class="btn btn-dark px-5" @click="loadCities">Search</button>
       </div>
     </div>                        

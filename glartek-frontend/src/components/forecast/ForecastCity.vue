@@ -6,7 +6,6 @@
   const router = useRouter()
 
   const axios = inject('axios')
-  const serverBaseUrl = inject('serverBaseUrl')
   const iconURL = inject('iconURL')
 
   const props = defineProps({
@@ -49,7 +48,7 @@
 
   const loadWeatherInformation = () => {
     // load forecast
-    axios.get(`${serverBaseUrl}/weather/forecast?lat=${props.lat}&lon=${props.lon}`)
+    axios.get(`weather/forecast?lat=${props.lat}&lon=${props.lon}`)
         .then((response) => {
           //console.log("RESPOSTA: " + JSON.stringify(response.data))
           forecast.value = response.data
@@ -59,7 +58,7 @@
         })
     
     // load currentWeather
-    axios.get(`${serverBaseUrl}/weather?lat=${props.lat}&lon=${props.lon}`)
+    axios.get(`weather?lat=${props.lat}&lon=${props.lon}`)
     .then((response) => {
       currentWeather.value = response.data
       currentWeatherIcon.value = `${iconURL}/${currentWeather.value.weather.icon}@2x.png`
@@ -69,6 +68,10 @@
       console.log(error)
     })
 
+  }
+
+  const goBack = () =>{
+    router.back()
   }
 
 
@@ -89,6 +92,9 @@
   <forecast-table
     :forecast="forecast"
   ></forecast-table>
+  <div>
+    <button type="button" class="btn btn-dark" @click="goBack()">Go back</button>
+  </div>
 </template>
 
 <style scoped>

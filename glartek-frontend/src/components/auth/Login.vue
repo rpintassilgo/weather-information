@@ -6,7 +6,7 @@
   const toast = inject('toast')
 
   const credentials = ref({
-        username: '',
+        email: '',
         password: ''
     })
 
@@ -38,15 +38,15 @@
     <div class="mb-3">
       <div class="mb-3">
         <label
-          for="inputUsername"
+          for="inputEmail"
           class="form-label"
-        >Username</label>
+        >Email</label>
         <input
           type="text"
           class="form-control"
-          id="inputUsername"
+          id="inputEmail"
           required
-          v-model="credentials.username"
+          v-model="credentials.email"
         >
       </div>
     </div>
@@ -68,7 +68,7 @@
     <div class="mb-3 d-flex justify-content-center">
       <button
         type="button"
-        class="btn btn-primary px-5"
+        class="btn btn-dark px-5"
         @click="login"
       >Login</button>
     </div>

@@ -1,12 +1,13 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 module.exports = class AuthController{
 
     static generateToken(params = {}){ // trocar para sha512
         return jwt.sign(params, process.env.CLIENT_SECRET, {
-            expiresIn: 86400, // 1 day
+            expiresIn: 3600,//86400, // 1 day
         })
     }
 
@@ -26,18 +27,11 @@ module.exports = class AuthController{
         }
     };
 
+    /*
     static async autheticate(req,res){
-        const user = await User.findOne({ email: req.body.email }).select('+password');
-
-        if(!user) return res.status(400).send({ error: 'User not found' });
-
-        if(!await bcrypt.compare(req.body.password, user.password)) 
-            return res.status(400).send({ error: 'Invalid password' });
-
-        user.password = undefined;
-
-        res.send({ user, token: AuthController.generateToken({ id: user.id }) });
+        passport.authenticate(req,res)
     }
+    */
 
 };
 

@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 
 export const useUserStore = defineStore('user', () => {
     const axios = inject('axios')
-    const serverBaseUrl = inject('serverBaseUrl')
     
     const user = ref(null)
 
@@ -25,15 +24,21 @@ export const useUserStore = defineStore('user', () => {
     function clearUser () {
         delete axios.defaults.headers.common.Authorization
         sessionStorage.removeItem('token')
-        user.value = null
+        //user.value = null
     }  
     
-    async function login (credentials) {
+    async function login(credentials) {
         try {
-            const response = await axios.post('login', credentials)
-            axios.defaults.headers.common.Authorization = "Bearer " + response.data.access_token
-            sessionStorage.setItem('token', response.data.access_token)
-            await loadUser()
+            const response = await axios.post('auth/authenticate', credentials)
+            axios.defaults.headers.common.Authorization = "Bearer " + response.data.token
+            console.log("DADOS LOGIN: " + JSON.stringify(response.data))
+            sessionStorage.setItem('token', response.data.token)
+            //await loadUser()
+            user.value = {
+                name: response.data.user.name,
+                email: response.data.user.email,
+            }
+            console.log("user: " + JSON.stringify(user.value))
             return true       
         } 
         catch(error) {
@@ -41,11 +46,26 @@ export const useUserStore = defineStore('user', () => {
             return false
         }
     }
+
+    async function register(credentials) {
+        try {
+           // console.log("")
+            const response = await axios.post('auth/register', credentials)
+            axios.defaults.headers.common.Authorization = "Bearer " + response.data.access_token
+            sessionStorage.setItem('token', response.data.access_token)  
+            return true       
+        } 
+        catch(error) {
+            clearUser()
+            //projectsStore.clearProjects()
+            return false
+        }
+    }
     
     async function logout () {
         try {
-            await axios.post('logout')
-            clearUser()
+            await axios.post('auth/logout')
+            //clearUser()
             return true
         } catch (error) {
             return false
@@ -56,12 +76,12 @@ export const useUserStore = defineStore('user', () => {
         let storedToken = sessionStorage.getItem('token')
         if (storedToken) {
             axios.defaults.headers.common.Authorization = "Bearer " + storedToken
-            await loadUser()
+            //await loadUser()
             return true
         }
         clearUser()
         return false
     }
     
-    return { user, userId, login, logout, restoreToken }
+    return { user, userId, register, login, logout, restoreToken }
 })

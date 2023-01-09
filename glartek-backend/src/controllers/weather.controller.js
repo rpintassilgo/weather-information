@@ -64,7 +64,6 @@ module.exports = class WeatherController{
                         direction: Compass.cardinalFromDegree(response.data.wind.deg, Compass.CardinalSubset.Ordinal),
                     },
                     time: luxon.DateTime.fromSeconds(response.data.dt).toFormat('yyyy/MM/dd HH:mm:ss')
-                   // time: dateFormat.dateFormat(new Date(response.data.dt * 1000), "yyyy/mm/dd  HH:MM:ss")
                 }
                 
                 await redisClient.set(coordinates,JSON.stringify(weather));
