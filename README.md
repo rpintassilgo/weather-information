@@ -42,5 +42,5 @@ Do not forget about the redis server
 ```bash
 $ redis-server
 ```
-
+\
 My first decent README.md :)
