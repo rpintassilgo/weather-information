@@ -11,6 +11,7 @@ const buttonSidebarExpand = ref(null)
 
 const logout = async () => {
   if (await userStore.logout()) {
+    console.log("fds")
     toast.success("User has logged out of the application.")
     clickMenuOption()
     router.push({name: 'Homepage'})
@@ -111,7 +112,7 @@ const clickMenuOption = () => {
                 Weather
               </router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="userStore.user">
               <router-link
                 class="nav-link"
                 :class="{ active: $route.name === 'Cities' }"

@@ -15,9 +15,12 @@ const weatherRoute = require('./routes/weather.routes');
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 100 * 60 * 1000 }
+    resave: true,
+    saveUninitialized: true,
+    cookie: { maxAge:  20 * 1000,
+            sameSite: 'Lax',
+            secure: false
+         }
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -37,10 +40,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Credentials", true);
     res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
     res.header("Access-Control-Allow-Headers", "Content-Type");
-    res.cookie('connect.sid', {
-        sameSite: 'Lax',
-        secure: false
-      });
     next();
   });
 

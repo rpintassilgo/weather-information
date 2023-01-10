@@ -14,6 +14,6 @@ router.post('/authenticate', passport.authenticate('local', { failureMessage: 'I
     }
     res.send(user);
 })
-//router.get('/me', controller.getLoggedUser)
+router.post('/logout', controller.logout);
 
 module.exports = router;

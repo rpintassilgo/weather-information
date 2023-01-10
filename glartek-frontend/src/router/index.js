@@ -53,22 +53,15 @@ const router = createRouter({
 
 let handlingFirstRoute = true
 
-router.beforeEach(async (to, from, next) => {  
-  /*
+router.beforeEach( (to, from, next) => {  
+
   const userStore = useUserStore()  
-  if (handlingFirstRoute) {
-    handlingFirstRoute = false
-    //await userStore.restoreToken()
-  }
-  if ((to.name == 'Login')) {
-    next()
-    return
-  }
-  if (userStore.user) {
-    next({ name: 'Login' })
-    return
-  }
-  */
+  if(!userStore.user) userStore.restoreUser()
+
+  if((to.name == 'Cities' || to.name == 'ForecastCity') && !userStore.user) return
+
+  //if(isCookieExpired())
+  
   next()
 })
 

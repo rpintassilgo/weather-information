@@ -32,7 +32,16 @@ module.exports = class AuthController{
         }
     }
 
-    
+    static async logout(req,res){
+        try {
+            res.clearCookie('connect.sid')
+            return res.send(req.user);
+        } catch (error) {
+            return res.status(400).send({ error: /*'Logout error'*/error.message  });
+        }
+    }
+
+
     
 
 };
