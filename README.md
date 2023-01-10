@@ -1,7 +1,9 @@
 # Weather Information
 
 Small fullstack project that uses openweathermap.org to display weather information
+
 I've chosen the single-page application(SPA) approach for the frontend and the MVC(without views) architetural pattern for the backend
+
 Used technologies: NodeJS, ExpressJS, MongoDB, Redis, Vue
 
 ## Backend configuration
