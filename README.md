@@ -24,6 +24,10 @@ Install depencies and start
 $ npm install
 $ npm run start
 ```
+Do not forget about the redis server
+```bash
+$ redis-server
+```
 
 ## Frontend configuration
 
@@ -37,10 +41,6 @@ Install depencies and start (feel free to build it instead)
 ```bash
 $ npm install
 $ npm run dev
-```
-Do not forget about the redis server
-```bash
-$ redis-server
 ```
 \
 My first decent README.md :)
