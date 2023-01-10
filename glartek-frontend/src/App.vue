@@ -9,11 +9,17 @@ const userStore = useUserStore()
 
 const buttonSidebarExpand = ref(null)
 
+const removeCookieTimer = () => {
+  const timeout = sessionStorage.getItem('timer')
+  clearTimeout(timeout)
+  sessionStorage.removeItem('timer')
+}
+
 const logout = async () => {
   if (await userStore.logout()) {
-    console.log("fds")
     toast.success("User has logged out of the application.")
     clickMenuOption()
+    removeCookieTimer()
     router.push({name: 'Homepage'})
   } else {
     toast.error("There was a problem logging out of the application!")
@@ -155,11 +161,6 @@ const clickMenuOption = () => {
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
-                  <img
-                    src="./assets/avatar-none.png"
-                    class="rounded-circle z-depth-0 avatar-img"
-                    alt="avatar image"
-                  />
                   <span class="avatar-text">User Name</span>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">

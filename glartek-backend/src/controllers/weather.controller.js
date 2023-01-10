@@ -32,7 +32,7 @@ module.exports = class WeatherController{
             return res.send(data)
             
         } catch (error) {
-            return res.status(400).send({ error: "Erro coordinates: " + error.message/*'Unavaiable'*/});
+            return res.status(400).send({ error: 'Geolocation API failed' });
         }
     }
 
@@ -40,7 +40,6 @@ module.exports = class WeatherController{
         const coordinates = `${req.query.lat}|${req.query.lon}`;
         let data = null
 
-        // check if the key is set
         const exists = await redisClient.get(coordinates) == null ? false : true
 
         try {
@@ -81,7 +80,7 @@ module.exports = class WeatherController{
         }
     };
 
-    // by coordinates or city id
+    // getForecast by coordinates or city id
     static async getForecast(req,res){
         let data = null
         

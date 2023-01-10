@@ -14,11 +14,21 @@
 
   const emit = defineEmits(['login'])
 
+  const addCookieTimer = () => {
+    const timeout = setTimeout(function(){
+      userStore.logout()
+      router.push({ name: 'Homepage' })
+      toast.error('Session expired')
+    },30*60*1000) // 30 min session
+    sessionStorage.setItem('timer',timeout)
+}
+
   const login = async () => {
     if (await userStore.login(credentials.value)) {
       toast.success('User ' + userStore.user.name + ' has entered the application.')
       emit('login')
       router.push({ name: 'Homepage' })
+      addCookieTimer()
     } else {
       credentials.value.password = ''
       toast.error('User credentials are invalid!')
