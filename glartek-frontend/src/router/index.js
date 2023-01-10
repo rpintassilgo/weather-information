@@ -54,10 +54,11 @@ const router = createRouter({
 let handlingFirstRoute = true
 
 router.beforeEach(async (to, from, next) => {  
+  /*
   const userStore = useUserStore()  
   if (handlingFirstRoute) {
     handlingFirstRoute = false
-    await userStore.restoreToken()
+    //await userStore.restoreToken()
   }
   if ((to.name == 'Login')) {
     next()
@@ -67,6 +68,7 @@ router.beforeEach(async (to, from, next) => {
     next({ name: 'Login' })
     return
   }
+  */
   next()
 })
 

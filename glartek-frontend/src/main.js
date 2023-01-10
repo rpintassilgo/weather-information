@@ -20,6 +20,7 @@ app.provide('axios', axios.create({
     headers: {
       'Content-type': 'application/json',
     },
+    withCredentials: true
   }))
 app.provide('serverBaseUrl', serverBaseUrl)  
 app.provide('iconURL', iconURL)  

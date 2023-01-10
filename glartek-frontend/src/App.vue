@@ -99,7 +99,7 @@ const clickMenuOption = () => {
     <div class="row">
       <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
         <div class="position-sticky pt-3">
-          <ul class="nav flex-column" v-if="!userStore.user">
+          <ul class="nav flex-column">
             <li class="nav-item">
               <router-link
                 class="nav-link"

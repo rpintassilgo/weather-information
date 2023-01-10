@@ -5,12 +5,6 @@ const LocalStrategy = require('passport-local').Strategy;
 
 module.exports = class AuthController{
 
-    static generateToken(params = {}){ // trocar para sha512
-        return jwt.sign(params, process.env.CLIENT_SECRET, {
-            expiresIn: 3600,//86400, // 1 day
-        })
-    }
-
     static async register(req,res){
         try {
             // meter verificacoes e tal
@@ -21,17 +15,25 @@ module.exports = class AuthController{
             user.password = undefined;
     
             // token sent so that the user can login automatically after the registration
-            return res.send({ user, token: AuthController.generateToken({ id: user.id }) });
+            return res.send({ user });
         } catch (error) {
             return res.status(400).send({ error: error.message/*'Registration failed'*/});
         }
     };
 
-    /*
+    
     static async autheticate(req,res){
-        passport.authenticate(req,res)
+        try {
+            const passport = passport.authenticate('local', { failureRedirect: '/login'})
+            console.log("passport: " + passport)
+            //return res.send({ user });
+        } catch (error) {
+            return res.status(400).send({ error: error.message/*'Registration failed'*/});
+        }
     }
-    */
+
+    
+    
 
 };
 
