@@ -4,9 +4,7 @@ Small fullstack project that uses openweathermap.org to display weather informat
 I've chosen the single-page application(SPA) approach for the frontend and the MVC(without views) architetural pattern for the backend
 Used technologies: NodeJS, ExpressJS, MongoDB, Redis, Vue
 
-### Configuration
-
-## Backend
+## Backend configuration
 
 Make a copy from .env.example and rename it as .env and configure it
 ```
@@ -25,7 +23,7 @@ $ npm install
 $ npm run start
 ```
 
-## Frontend
+## Frontend configuration
 
 Again, make a copy from .env.example and rename it as .env and edit it as you wish
 ```
