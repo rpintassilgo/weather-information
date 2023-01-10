@@ -19,7 +19,6 @@
   const loadCities = () => {
     axios.get(`weather/${city.value}`)
         .then((response) => {
-          //console.log("RESPOSTA: " + JSON.stringify(response.data))
           cities.value = response.data
         })
         .catch((error) => {
@@ -30,7 +29,6 @@
   }
 
   const forecast = (city) => {
-   // console.log("city: " + city)
     router.push({ name: 'ForecastCity', query: { lat: city.lat, lon: city.lon, city: city.name, country: city.country, state: city.state}})
   }
 

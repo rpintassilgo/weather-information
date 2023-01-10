@@ -51,16 +51,12 @@ const router = createRouter({
   ]
 })
 
-let handlingFirstRoute = true
-
 router.beforeEach( (to, from, next) => {  
 
   const userStore = useUserStore()  
   if(!userStore.user) userStore.restoreUser()
 
   if((to.name == 'Cities' || to.name == 'ForecastCity') && !userStore.user) return
-
-  //if(isCookieExpired())
   
   next()
 })

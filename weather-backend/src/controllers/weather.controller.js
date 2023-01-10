@@ -14,8 +14,6 @@ module.exports = class WeatherController{
         // check if the key is set
         const exists = await redisClient.get(`geo/${city}`) == null ? false : true
 
-        console.log("teste: " + process.env.GEO_API_URL);
-
         try {
             if(!exists){
                 const response = await axios.get(`${process.env.GEO_API_URL}?q=${city}&limit=5&appid=${process.env.OPEN_WEATHER_API_KEY}`, 
@@ -47,7 +45,6 @@ module.exports = class WeatherController{
                 const response = await axios.get(`${process.env.WEATHER_API_URL}?lat=${req.query.lat}&lon=${req.query.lon}&appid=${process.env.OPEN_WEATHER_API_KEY}`, 
                 { headers: {'Content-type': 'application/json'}});
 
-                console.log(response.data.dt)
                 const weather = {
                     city: response.data.city,
                     weather: {
@@ -95,8 +92,6 @@ module.exports = class WeatherController{
             return res.status(400).send({ error: 'Invalid query parameters' });
         
         const isCoordinates = city.id === undefined ? true : false;
-        
-        console.log(city)
         
         // check if the key is set
         const exists = await redisClient.get(JSON.stringify(city)) == null ? false : true

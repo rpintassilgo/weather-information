@@ -29,7 +29,6 @@
     // load forecast
       axios.get(`weather/forecast?cityid=${filterByCity.value}`)
         .then((response) => {
-          console.log("RESPOSTA: " + response)
           forecast.value = response.data
         })
         .catch((error) => {
@@ -68,7 +67,6 @@
       .then((response) => {
         currentWeather.value = response.data
         currentWeatherIcon.value = `${iconURL}/${currentWeather.value.weather.icon}@2x.png`
-        console.log("Current: " + JSON.stringify(currentWeather.value))
       })
       .catch((error) => {
         console.log(error)

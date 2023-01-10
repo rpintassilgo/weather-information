@@ -14,16 +14,9 @@
 
   const userStore = useUserStore()
 
-  const emit = defineEmits(['register'])
-
   const register = async () => {
-
-    console.log("register: " + JSON.stringify(credentials.value))
-
     if (await userStore.register(credentials.value)) {
       toast.success('Account created')
-      emit('register')
-      //router.back()
       router.push('/login')
     } else if (credentials.value.password != credentials.value.confirmPassword || credentials.value.password == '' || credentials.value.confirmPassword == '') {
       credentials.value.password = ''

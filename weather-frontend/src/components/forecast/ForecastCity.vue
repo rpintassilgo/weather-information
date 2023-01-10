@@ -50,7 +50,6 @@
     // load forecast
     axios.get(`weather/forecast?lat=${props.lat}&lon=${props.lon}`)
         .then((response) => {
-          //console.log("RESPOSTA: " + JSON.stringify(response.data))
           forecast.value = response.data
         })
         .catch((error) => {
@@ -62,7 +61,6 @@
     .then((response) => {
       currentWeather.value = response.data
       currentWeatherIcon.value = `${iconURL}/${currentWeather.value.weather.icon}@2x.png`
-      console.log("Current: " + JSON.stringify(currentWeather.value))
     })
     .catch((error) => {
       console.log(error)
