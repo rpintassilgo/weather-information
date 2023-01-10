@@ -14,24 +14,29 @@
 
   const userStore = useUserStore()
 
+  const isEmail = (email) => {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    }
+
   const register = async () => {
     if (await userStore.register(credentials.value)) {
       toast.success('Account created')
       router.push('/login')
-    } else if (credentials.value.password != credentials.value.confirmPassword || credentials.value.password == '' || credentials.value.confirmPassword == '') {
+    } else if (!isEmail(credentials.value.email)){
+      credentials.value.email  = ''
+      toast.error('Invalid email')
+    }
+    else if (credentials.value.password != credentials.value.confirmPassword || credentials.value.password == '' || credentials.value.confirmPassword == '') {
       credentials.value.password = ''
       credentials.value.confirmPassword = ''
-      toast.error('Password do not match')
+      toast.error('Invalid password')
     }
-    else if (credentials.value.name == ''){
+    else{
       credentials.value.name  = ''
       toast.error('Invalid name')
     }
-    else{
-        credentials.value.default_payment_reference  = ''
-        toast.error('Invalid default_payment_reference')
-        }
-    }
+  }
 </script>
 
 
